@@ -1,2 +1,15 @@
 # ZipatoAPI_Node-RED
-Using node-red to fetch sensor readings through the Zipato REST API and send them to ThingSpeak
+Using Node-RED to fetch sensor readings through the Zipato REST API and send them to ThingSpeak. 
+
+## Prerequisites
+
+[my.zipato.com]: my.zipato.com
+
+
+
+
+
+## The main flow
+
+
+
