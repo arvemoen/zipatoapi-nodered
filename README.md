@@ -36,7 +36,7 @@ This project demonstrates how [Node-RED](http://nodered.org/) can be used to get
 
 ## The main flow
 
-![](img/flow1.tiff)
+![](img/flow1.png)
 
 
 
@@ -83,9 +83,9 @@ The UUID of a device (sensor) can be found by using the Device manager in the [M
 
 ## ZipatoLogin sub flow
 
-This sub flow does the necessary Http requests and authorization settings to log in to My Zipato.
+This sub flow does the necessary http requests and authorization settings to log in to My Zipato.
 
-![](img/zipatoLogin.tiff) 
+![](img/zipatoLogin.png) 
 
 The `buildZipatoUserLoginURL` Function node do token encryption and builds the authorization URL:
 
@@ -112,7 +112,7 @@ return msg;
 
 This sub flow builds the URL to be used in a _GET /update_ http request to update the ThingSpeak Channel Feed.
 
-![](img/sendToThingSpeak.tiff)
+![](img/sendToThingSpeak.png)
 
 The fields values are passed to the `buildThinkSpeakURL`function node by the incoming `msg.fieldAndValue` property.
 
