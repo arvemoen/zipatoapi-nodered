@@ -1,8 +1,6 @@
 # ZipatoAPI_Node-RED
 This project demonstrates how [Node-RED](http://nodered.org/) can be used to get device (sensor) readings through the REST API of the [Zipato home control and automation system](https://www.zipato.com/) and send them to a [ThingSpeak Channel](https://thingspeak.com/channels/144275) for visualization. 
 
-
-
 ## Prerequisites
 
 1. An account at [my.zipato.com]() with an online Zipabox with some devices connected.
@@ -31,18 +29,15 @@ This project demonstrates how [Node-RED](http://nodered.org/) can be used to get
 
 5. A [ThingSpeak](https://thingspeak.com/) account with a Channel configured to receive and visualize the values of selected Zipato devices (sensors).
 
-   ​
 
 
-## The main flow
+## The flow
 
 ![](img/flow1.png)
 
+The `getZipatoValues` http request node does a _GET /attributes/values_ against the [Zipato REST API](http://my.zipato.com:8080/zipato-web/api/) to get the  last value of <u>all</u> the devices (sensors).
 
-
-The `getZipatoValues` http request node do a _GET /attributes/values_ against the [Zipato REST API](http://my.zipato.com:8080/zipato-web/api/) to get the  last values of <u>all</u> the devices (sensors).
-
-The `selectValues` function node maps the UUID of a selected device (sensor) to a specific ThingSpeak field:
+The `selectValues` function node maps the UUID of a selected device (sensor) to a specific ThingSpeak field like this:
 
 ```javascript
 ...
@@ -79,15 +74,13 @@ for (i = 0; i < msg.payload.length; i++) {
 
 The UUID of a device (sensor) can be found by using the Device manager in the [My Zipato Dashboard](https://my.zipato.com/zipato-web/app2dashboard).
 
-
-
-## ZipatoLogin sub flow
+### ZipatoLogin sub flow
 
 This sub flow does the necessary http requests and authorization settings to log in to My Zipato.
 
 ![](img/zipatoLogin.png) 
 
-The `buildZipatoUserLoginURL` Function node do token encryption and builds the authorization URL:
+The `buildZipatoUserLoginURL` function node does token encryption and builds the authorization URL:
 
 ```javascript
 var sha1 = global.get('sha1');
@@ -106,9 +99,7 @@ msg.headers.cookie = "JSESSIONID=" + jsessionid;
 return msg;
 ```
 
-
-
-## SendToThingSpeak sub flow
+### SendToThingSpeak sub flow
 
 This sub flow builds the URL to be used in a _GET /update_ http request to update the ThingSpeak Channel Feed.
 
@@ -124,20 +115,18 @@ msg.url = url + msg.fieldsAndValues;
 return msg;
 ```
 
-
-
 ## How to run the flow?##
 
-Start the flow by running:`$node-red -u <path_to_flow> ZipatoAPI_Node-RED.json`
+Start the flow by running:
 
-Then start the Node-RED editor at [http://localhost:1880](http://localhost:1880/)
+`$node-red -u <path_to_flow> ZipatoAPI_Node-RED.json`
 
-(See the [node-RED documentation](http://nodered.org/docs/getting-started/running) for details)
+Then start the Node-RED editor at [http://localhost:1880](http://localhost:1880/) (See the [node-RED documentation](http://nodered.org/docs/getting-started/running) for details)
 
-Go through the function nodes and put in real data for username, password, sensor UUIDs, ThingSpeak Channel ID and Write API key.
+Go through the function nodes and put in real data for username, password, sensor UUIDs, ThingSpeak Channel ID and API key.
 
+Live Zipato readings can be seen by visiting my [ThingSpeak Channel 144275](https://thingspeak.com/channels/144275).
 
+## What next?##
 
-# What next?#
-
-This is a straightforward Node-RED flow primarily to demonstrate how this can be done. Next step should probably be to merge the flow and create a single configurable node that can be used to send Zipato device (sensor) readings to ThingSpeak.
+This project describes a simple straightforward Node-RED flow that primarily demonstrate how data can be fetched from Zipbox connected devices and sent to ThingSpeak. There is no error catching nor any data validation. Next step should probably be to merge the flow into a single configurable robust node that can be used to send Zipato device (sensor) readings to ThingSpeak.
